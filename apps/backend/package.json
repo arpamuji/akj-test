@@ -4,25 +4,31 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --outdir dist",
+    "build": "bun build src/index.ts --outdir dist --target node",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name init",
-    "test": "jest",
+    "test": "bun test",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
+    "@akj-test/shared": "*",
+    "@prisma/adapter-better-sqlite3": "^7.7.0",
+    "@prisma/adapter-libsql": "^7.7.0",
     "@prisma/client": "^7.7.0",
+    "better-sqlite3": "^12.9.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "http-errors": "^2.0.1",
+    "libsql": "^0.5.29",
     "winston": "^3.19.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
     "@types/express": "^5.0.6",
+    "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.11.16",
     "@types/supertest": "^6.0.2",

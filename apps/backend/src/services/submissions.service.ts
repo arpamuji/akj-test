@@ -1,21 +1,56 @@
 // Submissions service - business logic layer
+import { PrismaLibSql } from '@prisma/adapter-libsql';
+import { PrismaClient } from '../../generated/prisma/client';
+
+const adapter = new PrismaLibSql({ url: 'file:./prisma/dev.db' });
+const prisma = new PrismaClient({ adapter });
+
 export const submissionsService = {
-  async create(data: any) {
-    console.log('TODO: Create submission in DB', data);
-    return data;
+  async create(data: {
+    fullName: string;
+    targetRole: string;
+    yearsExperience: number;
+    skills: string[];
+    shortBio: string;
+    location: string;
+    preferredWorkType: string;
+  }) {
+    const created = await prisma.submission.create({
+      data: {
+        ...data,
+        skills: data.skills.join(','),
+      },
+    });
+    return {
+      ...created,
+      skills: created.skills.split(',').filter((skill) => skill.trim()),
+    };
   },
 
   async findAll() {
-    console.log('TODO: Fetch all submissions from DB');
-    return [];
+    const submissions = await prisma.submission.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return submissions.map((s) => ({
+      ...s,
+      skills: s.skills.split(',').filter((skill) => skill.trim()),
+    }));
   },
 
-  async findById(id: number) {
-    console.log('TODO: Find submission by ID', id);
-    return null;
+  async findById(id: string) {
+    const submission = await prisma.submission.findUnique({
+      where: { id },
+    });
+    if (!submission) return null;
+    return {
+      ...submission,
+      skills: submission.skills.split(',').filter((skill) => skill.trim()),
+    };
   },
 
-  async deleteById(id: number) {
-    console.log('TODO: Delete submission by ID', id);
+  async deleteById(id: string) {
+    await prisma.submission.delete({
+      where: { id },
+    });
   },
 };
