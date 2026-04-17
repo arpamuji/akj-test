@@ -1,11 +1,32 @@
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import SubmissionForm from './components/Submissions/SubmissionForm';
+import SubmissionsList from './components/Submissions/SubmissionsList';
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-2xl w-full p-6">
-        <h1 className="text-3xl font-bold text-center mb-8">Career Profile Intake</h1>
-        <p className="text-center text-gray-600">Form coming soon...</p>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <nav className="flex justify-center gap-6 mb-8">
+            <Link to="/" className="text-sm font-medium hover:underline underline-offset-4">
+              Submit Profile
+            </Link>
+            <Link
+              to="/submissions"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
+              View Submissions
+            </Link>
+          </nav>
+          <div className="flex flex-row justify-center">
+            <Routes>
+              <Route path="/" element={<SubmissionForm />} />
+              <Route path="/submissions" element={<SubmissionsList />} />
+            </Routes>
+          </div>
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

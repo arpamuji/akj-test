@@ -1,23 +1,27 @@
-// API client for backend communication
+import type { SubmissionInput, Submission, CompletenessResult } from '@/types';
+
 const API_BASE = '/api';
 
 export const api = {
   submissions: {
-    async create(data: any) {
+    async create(data: SubmissionInput): Promise<Submission> {
       const res = await fetch(`${API_BASE}/submissions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      return res.json();
+      const result = await res.json();
+      return result.data;
     },
-    async findAll() {
+    async findAll(): Promise<Submission[]> {
       const res = await fetch(`${API_BASE}/submissions`);
-      return res.json();
+      const result = await res.json();
+      return result.data;
     },
-    async getScore(id: number) {
+    async getScore(id: string): Promise<CompletenessResult> {
       const res = await fetch(`${API_BASE}/submissions/${id}/score`);
-      return res.json();
+      const result = await res.json();
+      return result.data;
     },
   },
 };

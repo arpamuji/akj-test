@@ -3,7 +3,9 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@akj-test/shared": ["../../packages/shared/src"],
+      "@akj-test/shared/*": ["../../packages/shared/src/*"]
     }
   },
   "include": ["src/**/*"],
