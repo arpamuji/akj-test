@@ -5,4 +5,22 @@ dist
 .DS_Store
 coverage
 *.log
-prisma/dev.db
+
+# Prisma
+apps/backend/prisma/dev.db
+apps/backend/prisma/test.db
+
+# Generated
+generated/
+*.js
+*.d.ts
+!eslint.config.js
+!prettier.config.js
+!tailwind.config.js
+!postcss.config.js
+!commitlint.config.js
+
+# IDE
+.idea/
+*.swp
+*.swo
