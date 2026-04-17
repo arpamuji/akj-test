@@ -1,5 +1,6 @@
 // Express app setup
 import express from 'express';
+import helmet from 'helmet';
 import { corsMiddleware } from './middlewares/cors';
 import { errorMiddleware } from './middlewares/error';
 import { router } from './routes';
@@ -10,7 +11,9 @@ export const createApp = (): Express => {
 
   // Middlewares
   app.use(corsMiddleware);
-  app.use(express.json());
+  app.use(helmet({ contentSecurityPolicy: false })); // Disable CSP for development
+  app.use(express.json({ limit: '10kb' }));
+  app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
   // Routes
   app.use('/api', router);

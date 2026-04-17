@@ -1,12 +1,15 @@
 import { z } from 'zod';
 
+// Sanitize strings by removing HTML-like characters and trimming
+const sanitizeString = (str: string) => str.replace(/[<>]/g, '').trim();
+
 export const submissionSchema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
-  targetRole: z.string().min(1, 'Target role is required'),
+  fullName: z.string().min(1, 'Full name is required').transform(sanitizeString),
+  targetRole: z.string().min(1, 'Target role is required').transform(sanitizeString),
   yearsExperience: z.number().int().min(0).max(50),
   skills: z.array(z.string()).default([]),
-  shortBio: z.string().max(500, 'Bio must be under 500 characters'),
-  location: z.string().min(1, 'Location is required'),
+  shortBio: z.string().max(500, 'Bio must be under 500 characters').transform(sanitizeString),
+  location: z.string().min(1, 'Location is required').transform(sanitizeString),
   preferredWorkType: z.enum(['remote', 'hybrid', 'onsite']),
 });
 

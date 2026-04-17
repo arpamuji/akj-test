@@ -2,12 +2,14 @@
 import { Router } from 'express';
 import { submissionsController } from '../controllers/submissions.controller';
 import { createValidationMiddleware } from '../middlewares/validation';
+import { rateLimiter } from '../middlewares/rateLimit';
 import { submissionSchema } from '@akj-test/shared';
 
 export const submissionsRoutes: Router = Router();
 
 submissionsRoutes.post(
   '/',
+  rateLimiter,
   createValidationMiddleware(submissionSchema),
   submissionsController.create
 );
